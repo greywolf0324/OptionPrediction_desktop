@@ -1,3 +1,4 @@
+# Python==3.10.11
 Xlsxwriter==3.1.4
 pandas
 PyQt5
