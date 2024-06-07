@@ -1,0 +1,6 @@
+Xlsxwriter==3.1.4
+pandas
+PyQt5
+selenium
+tensorflow==2.9.3
+XlsxWriter==3.1.4
