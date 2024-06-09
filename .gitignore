@@ -9,7 +9,7 @@ visualization/input.npy
 visualization/output.npy
 visualization/model.h5
 predict result.xlsx
-spread/convert.py
+# spread/convert.py
 sreapd/spread_vertical.csv
 spread/spread_butterfly.csv
 venv/*

@@ -1,7 +1,8 @@
 import streamlit as st
 import pandas as pd
-from tws_api import *
-from convert import *
+# from tws_api import *
+from convert import predict_spread
+import os
 
 def init_state():
     if 'spread_vertical' not in st.session_state:
@@ -16,7 +17,16 @@ def init_state():
         st.session_state.butterfly_page_number = 0
 
 if __name__ == '__main__':
-    init_state()
+    options_path    = 'dataset/options'
+    stocks_path     = 'dataset/stocks'
+
+    if os.path.exists(options_path) and os.path.exists(stocks_path):
+            if len(os.listdir(options_path)) == len(os.listdir(stocks_path)):
+                fileList = []
+                for file in os.listdir(options_path):
+                    fileList.append(file[0:10])
+    print("filelist: ", fileList)
+    db_selection = st.sidebar.selectbox('DB selection', fileList)
 
     predict_button = st.sidebar.button('Predict Spreads')
     if predict_button:
@@ -24,10 +34,13 @@ if __name__ == '__main__':
         st.session_state.spread_butterfly = pd.DataFrame()
         st.session_state.vertical_page_number = 0
         st.session_state.butterfly_page_number = 0
-        st.session_state.spread_vertical = predict_spread('VERTICAL')
-        st.session_state.spread_butterfly = predict_spread('BUTTERFLY')
+        st.session_state.spread_vertical = predict_spread('VERTICAL', db_selection)
+        st.session_state.spread_butterfly = predict_spread('BUTTERFLY', db_selection)
         pass
-    spread_option = st.sidebar.selectbox('Spread Type', ['VERTICAL', 'BUTTERFLY'])
+
+    init_state()
+
+    spread_option = st.sidebar.selectbox('Spread Type', ['select spread type', 'VERTICAL', 'BUTTERFLY'])
     if spread_option == 'VERTICAL':
         if len(st.session_state.spread_vertical) == 0:
             st.subheader("None Vertical Spread")
